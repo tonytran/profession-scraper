@@ -7,12 +7,20 @@ def get_linkedin_credentials_from_file(linkedin_credentials_filename):
     client_id = clientid_line.split()[1]
     client_secret = clientsecret_line.split()[1]
     return (client_id, client_secret)
-
+def get_linkedin_skills(linkedin_session):
+    pass
 def get_linked_history(linkedin_session):
     pass
 
 def create_linkedin_work_history_json(linkedin_history):
     pass
+
+#maybe add a google maps related tool for locating the user?
+def get_user_location_based_on_linkedin(linkedin_session, firstNameToSearch, lastNameToSearch):
+    url_string = "https://api.linkedin.com/v1/people/~:(id,location)?format=json&first-name=tony&last-name=tran"
+    #url_string = "https://api.linkedin.com/v1/people/~(id,location)?format=json&first-name={}&last-name={}".format(firstNameToSearch, lastNameToSearch)
+    jsonLocationData = linkedin_session.get(url_string)
+    print(jsonLocationData.content)
 
 def create_linkedin_oauth_session(authorization_base_url, token_url, client_id, redirect_uri, client_secret):
 
@@ -29,7 +37,7 @@ def create_linkedin_oauth_session(authorization_base_url, token_url, client_id, 
     return linkedin
 
 def main():
-    linkedin_credentials_filename = "linkedin_credentials.txt"
+    linkedin_credentials_filename = "./credentials/linkedin_credentials.txt"
     linkedin_credentials = get_linkedin_credentials_from_file(linkedin_credentials_filename)
 
 
@@ -44,8 +52,9 @@ def main():
     linkedin = create_linkedin_oauth_session(authorization_base_url, token_url, client_id, redirect_uri, client_secret)
 
 
-    r = linkedin.get("https://api.linkedin.com/v1/people/~?format=json")
-    print(r.content)
+#    r = linkedin.get("https://api.linkedin.com/v1/people/~?format=json")
+    get_user_location_based_on_linkedin(linkedin, "tony", "tran")
+#    print(r.content)
 
 
 main()
